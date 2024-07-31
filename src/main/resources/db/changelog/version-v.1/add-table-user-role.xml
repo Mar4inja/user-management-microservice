@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!-- Create the 'user_role' join table -->
+    <changeSet id="create_user_role_table" author="martins">
+        <createTable tableName="user_role">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Add primary key constraint -->
+        <addPrimaryKey tableName="user_role"
+                       columnNames="user_id, role_id"
+                       constraintName="pk_user_role"/>
+
+        <!-- Add foreign key constraints -->
+        <addForeignKeyConstraint baseTableName="user_role"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_user_role_to_user"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="user_role"
+                                 baseColumnNames="role_id"
+                                 constraintName="fk_user_role_to_role"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>
