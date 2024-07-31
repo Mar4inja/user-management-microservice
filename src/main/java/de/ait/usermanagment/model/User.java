@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -41,8 +42,17 @@ public class User implements UserDetails {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Embedded
-    private Address address;
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "post_index")
+    private String postIndex;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "street")
+    private String street;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -51,7 +61,7 @@ public class User implements UserDetails {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @Column(name = "registration_date", nullable = false)
+    @Column(name = "registration_date")
     private LocalDateTime registrationDate;
 
     @Override

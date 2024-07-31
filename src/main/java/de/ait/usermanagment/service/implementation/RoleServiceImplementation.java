@@ -4,7 +4,6 @@ import de.ait.usermanagment.model.Role;
 import de.ait.usermanagment.repository.RoleRepository;
 import de.ait.usermanagment.service.RoleServiceInterface;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @AllArgsConstructor
 public class RoleServiceImplementation implements RoleServiceInterface {
