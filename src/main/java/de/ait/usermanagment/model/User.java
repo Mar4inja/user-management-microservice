@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -54,7 +55,8 @@ public class User implements UserDetails {
     @Column(name = "street")
     private String street;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    //TODO Need understand, why EAGLE make problems???
+    @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
@@ -63,6 +65,11 @@ public class User implements UserDetails {
 
     @Column(name = "registration_date")
     private LocalDateTime registrationDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.registrationDate = LocalDateTime.now();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

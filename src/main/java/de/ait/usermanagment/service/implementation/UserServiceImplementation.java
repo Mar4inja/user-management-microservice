@@ -42,26 +42,16 @@ public class UserServiceImplementation implements UserServiceInterface {
             throw new IllegalArgumentException("User details are incomplete");
         }
 
-        // Pārbaudiet, vai lietotājs ar to pašu e-pastu jau eksistē
+        // Проверяем, что пользователь с данным email еще не существует
         if (userRepository.findByEmail(user.getEmail()) != null) {
-            throw new UserAlreadyExistsException("User with email: " + user.getEmail() + " already exists");
+            throw new IllegalArgumentException("User with email " + user.getEmail() + " already exists");
         }
 
-        // Iestatiet lomas
-        Role userRole = roleRepository.findByTitle("ROLE_USER");
-        if (userRole == null) {
-            throw new RuntimeException("Role not found");
-        }
-        user.setRoles(Collections.singleton(userRole));
-
-        // Iestatiet reģistrācijas datumu
+        user.setRoles(Collections.singleton(roleRepository.findByTitle("ROLE_USER")));
         user.setRegistrationDate(LocalDateTime.now());
         user.setActive(true);
-
-        // Saglabājiet lietotāju datubāzē
         User savedUser = userRepository.save(user);
-        logger.info("User created: " + savedUser);
-
+        logger.info("User with email: " + user.getEmail() + " successfully created");
         return savedUser;
     }
 

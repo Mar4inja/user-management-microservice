@@ -12,5 +12,6 @@
     <include file="add-table-role.xml" relativeToChangelogFile="true"/>
     <include file="add-table-user-role.xml" relativeToChangelogFile="true"/>
     <include file="add-roles.xml" relativeToChangelogFile="true"/>
+    <include file="create-foreign-keys-user-role.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

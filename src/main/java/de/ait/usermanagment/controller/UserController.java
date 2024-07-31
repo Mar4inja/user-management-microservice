@@ -5,7 +5,9 @@ import de.ait.usermanagment.exceptions.UserIsNotExistsException;
 import de.ait.usermanagment.model.User;
 import de.ait.usermanagment.repository.UserRepository;
 import de.ait.usermanagment.service.UserServiceInterface;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +22,11 @@ public class UserController {
     private final UserServiceInterface userService;
 
 
+    @Operation(summary = "Create new user (Register)")
     @PostMapping("/register")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return ResponseEntity.ok(userRepository.save(user));
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @GetMapping("/find/{id}")

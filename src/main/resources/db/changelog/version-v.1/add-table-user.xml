@@ -43,9 +43,10 @@
             <column name="is_active" type="boolean" defaultValue="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="registration_date" type="datetime" defaultValue="CURRENT_TIMESTAMP">
+            <column name="registration_date" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
+
         </createTable>
     </changeSet>
 
