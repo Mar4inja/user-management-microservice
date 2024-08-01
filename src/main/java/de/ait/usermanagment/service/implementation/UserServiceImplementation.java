@@ -104,12 +104,10 @@ public class UserServiceImplementation implements UserServiceInterface {
 
     @Override
     public void deleteUser(long id) {
-
-        if (userRepository.findById(id) == null) {
+        if (!userRepository.existsById(id)) {
             throw new UserIsNotExistsException("User with ID " + id + " does not exist!");
-        } else {
-            userRepository.deleteById(id);
         }
+        userRepository.deleteById(id);
     }
 
     @Override
