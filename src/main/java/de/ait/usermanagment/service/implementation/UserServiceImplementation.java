@@ -1,8 +1,6 @@
 package de.ait.usermanagment.service.implementation;
 
-import de.ait.usermanagment.exceptions.UserAlreadyExistsException;
 import de.ait.usermanagment.exceptions.UserIsNotExistsException;
-import de.ait.usermanagment.model.Role;
 import de.ait.usermanagment.model.User;
 import de.ait.usermanagment.repository.RoleRepository;
 import de.ait.usermanagment.repository.UserRepository;
@@ -10,6 +8,7 @@ import de.ait.usermanagment.service.UserServiceInterface;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,6 +22,7 @@ public class UserServiceImplementation implements UserServiceInterface {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceInterface.class);
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder encoder;
 
     @Override
     public User createUser(User user) {
@@ -49,6 +49,7 @@ public class UserServiceImplementation implements UserServiceInterface {
 
         user.setRoles(Collections.singleton(roleRepository.findByTitle("ROLE_USER")));
         user.setRegistrationDate(LocalDateTime.now());
+        user.setPassword(encoder.encode(user.getPassword()));
         user.setActive(true);
         User savedUser = userRepository.save(user);
         logger.info("User with email: " + user.getEmail() + " successfully created");
